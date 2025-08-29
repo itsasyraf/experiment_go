@@ -1,0 +1,24 @@
+# Stage 1 - Builder
+FROM golang:1.22 AS builder
+
+WORKDIR /app
+
+# Copy go.mod first
+COPY go.mod ./
+
+# Generate go.sum inside the container
+RUN go mod tidy
+
+# Now copy the source code
+COPY . .
+
+# Build binary
+RUN go build -o server .
+
+# Stage 2 - Final slim image
+FROM gcr.io/distroless/base-debian12
+WORKDIR /app
+COPY --from=builder /app/server .
+COPY ./.env /app/.env
+EXPOSE 8080
+CMD ["./server"]
