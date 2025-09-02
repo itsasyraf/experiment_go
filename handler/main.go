@@ -16,14 +16,18 @@ type Response struct {
     Data ResponseData `json:"data"`
 }
 
-func app(app_router fiber.Router) {
+func MainApp(app_router fiber.Router) {
 	app := app_router
-	app.Get("/", root)
+	app.Get("/", GetRoot)
 	// Register route groups
     // routes.UserRoutes(api)
 }
 
-func root(c *fiber.Ctx) error {
+// @Summary      Welcome message
+// @Accept       json
+// @Produce      json
+// @Router       / [get]
+func GetRoot(c *fiber.Ctx) error {
 	rs := ResponseStatus{200, "Success"}
 	rd := ResponseData{"Welcome to the 'experiment' project developed and deployed in Go language!"}
 	result := Response{rs, rd}

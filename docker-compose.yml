@@ -1,6 +1,8 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfile
     container_name: ${PROJECT_NAME}
     ports:
       - "${PROJECT_PORT}:${PROJECT_PORT}"

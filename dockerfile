@@ -1,13 +1,14 @@
 # Stage 1 - Builder
-FROM golang:1.22 AS builder
+FROM golang:1.24 AS builder
 
 WORKDIR /app
 
 # Copy go.mod first
 COPY go.mod ./
 
-# Generate go.sum inside the container
-RUN go mod tidy
+## Generate go.sum inside the container
+#RUN go mod tidy
+RUN go mod download
 
 # Now copy the source code
 COPY . .

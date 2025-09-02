@@ -3,28 +3,27 @@ package main
 import (
 	fmt "fmt"
 	core "app/core"
-	handler "app/handler"
+	sync "sync"
  	fiber "github.com/gofiber/fiber/v2"
+ 	swagger "github.com/gofiber/swagger"
+
+  	handler "app/handler"
+    _ "app/docs"
+
 )
 
-type ResponseStatus struct {
-    Code    int    `json:"code"`
-    Message string `json:"message"`
-}
-type ResponseData struct {
-    UIMessage   string    `json:"ui_message"`
-}
-type Response struct {
-	Status ResponseStatus `json:"status"`
-    Data ResponseData `json:"data"`
-}
+var once sync.Once
 
 func main() {
-	core.InitEnv()
+    once.Do(func() {
+	    core.InitDB()
+		core.InitEnv()
+    })
 	port := core.EnvMandatory("PROJECT_PORT")
 
 	app := fiber.New()
-	handler.main.app(app)
+	app.Get("/swagger/*", swagger.HandlerDefault) // default
+	handler.MainApp(app)
 
 	fmt.Println("🚀 Server running on :"+port)
 	app.Listen(":"+port)

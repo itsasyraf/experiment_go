@@ -1,0 +1,26 @@
+FROM golang:1.24-alpine
+
+RUN apk add --no-cache git curl bash
+
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64 \
+    PATH="/go/bin:$PATH"
+
+WORKDIR /app
+
+# Install Air
+RUN go install github.com/air-verse/air@v1.62.0
+
+# Copy go.mod first (dependency caching)
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy rest of the project
+COPY . .
+
+EXPOSE 3000
+
+# Run Air (auto-reload)
+CMD ["/go/bin/air"]

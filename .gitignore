@@ -1,0 +1,5 @@
+.env
+.air.toml
+docs
+go.sum
+tmp
