@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"os"
-	"time"
+	os "os"
+	time "time"
 
-	"github.com/golang-jwt/jwt/v5"
+	jwt "github.com/golang-jwt/jwt/v5"
 )
 
 type UserClaims struct {
@@ -20,7 +20,7 @@ func jwtSecret() []byte {
 func CreateAccessToken(userID, role string, ttl time.Duration) (string, error) {
 	claims := UserClaims{
 		UserID: userID,
-		Role:   role,
+		// Role:   role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(ttl)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),

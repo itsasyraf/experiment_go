@@ -1,9 +1,9 @@
 services:
   web:
     build:
-      context: .
-      dockerfile: dockerfile
+      context: ../..
+      dockerfile: ./build/docker/dockerfile
     container_name: ${PROJECT_NAME}
     ports:
       - "${PROJECT_PORT}:${PROJECT_PORT}"
-    restart: always
+    restart: unless-stopped

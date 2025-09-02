@@ -3,4 +3,7 @@ go mod tidy
 swag init --output ./docs
 
 docker compose down -v
-docker compose up --build
+docker compose -f ./build/docker/docker-compose.yml --env-file ./.env up --build
+
+rm -fr ./docs
+rm -fr ./go.sum

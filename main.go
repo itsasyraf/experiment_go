@@ -2,24 +2,26 @@ package main
 
 import (
 	fmt "fmt"
-	core "app/core"
 	sync "sync"
+
  	fiber "github.com/gofiber/fiber/v2"
  	swagger "github.com/gofiber/swagger"
 
+ 	// database "app/core/database"
+ 	environment "app/core/environment"
+   	_ "app/docs"
   	handler "app/handler"
-    _ "app/docs"
-
 )
 
 var once sync.Once
 
 func main() {
     once.Do(func() {
-	    core.InitDB()
-		core.InitEnv()
+    	environment.Init()
+     	// database.MainInit()
+	    // core.InitDB()
     })
-	port := core.EnvMandatory("PROJECT_PORT")
+	port := environment.Mandatory("PROJECT_PORT")
 
 	app := fiber.New()
 	app.Get("/swagger/*", swagger.HandlerDefault) // default
