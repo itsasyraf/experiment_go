@@ -7,3 +7,5 @@ services:
     ports:
       - "${PROJECT_PORT}:${PROJECT_PORT}"
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

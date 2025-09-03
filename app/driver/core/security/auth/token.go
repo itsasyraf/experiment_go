@@ -17,7 +17,7 @@ func jwtSecret() []byte {
 	return []byte(os.Getenv("JWT_SECRET"))
 }
 
-func CreateAccessToken(userID, role string, ttl time.Duration) (string, error) {
+func CreateAccessToken(userID string, ttl time.Duration) (string, error) {
 	claims := UserClaims{
 		UserID: userID,
 		// Role:   role,

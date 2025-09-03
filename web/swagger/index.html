@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Swagger UI</title>
+        <link rel="stylesheet" href="swagger-ui.css" />
+    </head>
+    <body>
+        <div id="swagger-ui"></div>
+        <script src="swagger-ui-bundle.js"></script>
+        <script src="swagger-ui-standalone-preset.js"></script>
+        <script>
+            window.onload = () => {
+                SwaggerUIBundle({
+                    url: "/swagger.json", // 👈 points to your Go API
+                    dom_id: "#swagger-ui",
+                    presets: [
+                        SwaggerUIBundle.presets.apis,
+                        SwaggerUIStandalonePreset,
+                    ],
+                });
+            };
+        </script>
+    </body>
+</html>

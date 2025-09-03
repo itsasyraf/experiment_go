@@ -16,7 +16,7 @@ func MainExec(query string, args ...any) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	log.Printf("✔️ Query run: %s", query)
+	log.Printf("✔️ Query exec Postgres [Main]: %s", query)
 
 	MainClose()
 	return cmd.RowsAffected(), nil

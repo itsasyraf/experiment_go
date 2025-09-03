@@ -17,7 +17,7 @@ func MainFetch(query string, args ...any) ([]map[string]interface{}, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	log.Printf("✔️ Query run: %s", query)
+	log.Printf("✔️ Query fetch Postgres [Main]: %s", query)
 
 	// get column names
 	fieldDescriptions := rows.FieldDescriptions()

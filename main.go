@@ -2,31 +2,35 @@ package main
 
 import (
 	fmt "fmt"
+	os "os"
 	sync "sync"
+	json "encoding/json"
 
  	fiber "github.com/gofiber/fiber/v2"
- 	swagger "github.com/gofiber/swagger"
 
- 	// database "app/core/database"
- 	environment "app/core/environment"
-   	_ "app/docs"
-  	handler "app/handler"
+    driver "app/app/driver"
+    apidoc "app/apidoc"
 )
 
 var once sync.Once
 
 func main() {
     once.Do(func() {
-    	environment.Init()
-     	// database.MainInit()
-	    // core.InitDB()
+    	driver.Init()
     })
-	port := environment.Mandatory("PROJECT_PORT")
+	port := os.Getenv("PROJECT_PORT")
 
 	app := fiber.New()
-	app.Get("/swagger/*", swagger.HandlerDefault) // default
-	handler.MainApp(app)
+	app.Get("/swagger.json", func(c *fiber.Ctx) error {
+			spec := apidoc.BuildSwagger()
+			b, _ := json.Marshal(spec)
+			return c.Type("json").Send(b)
+		})
+	driver.Main(app)
 
+	app.Static("/swagger", "./web/swagger", fiber.Static{
+	    Browse: true,     // allows showing index.html by default
+	})
 	fmt.Println("🚀 Server running on :"+port)
 	app.Listen(":"+port)
 }
